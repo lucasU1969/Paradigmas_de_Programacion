@@ -3,7 +3,7 @@ import City
 import Link
 import Quality
 import Tunel
-import Region2
+import Region
 import TestF
 
 ---------------------
