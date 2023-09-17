@@ -9,14 +9,14 @@ import org.junit.jupiter.api.function.Executable;
 
 public class QueueTest {
 
-  @Test public void test01QueueShouldBeEmptyWhenCreated() {
+@Test public void test01QueueShouldBeEmptyWhenCreated() {
     assertTrue( new Queue().isEmpty() );
   }
   @Test public void test02AddElementsToTheQueue() {
     assertFalse( queueWithSomething().isEmpty() );
   }
   @Test public void test03AddedElementsIsAtHead() {
-    assertEquals( "Something", queueWithSomething().head() );
+    assertEquals( something, queueWithSomething().head() );
   }
   @Test public void test04TakeRemovesElementsFromTheQueue() {
     Queue queue = queueWithSomething();
@@ -24,7 +24,7 @@ public class QueueTest {
     assertTrue( queue.isEmpty() );
   }
   @Test public void test05TakeReturnsLastAddedObject() {
-    assertEquals( "Something", queueWithSomething().take() );
+    assertEquals( something, queueWithSomething().take() );
   }
   @Test public void test06QueueBehavesFIFO() {
     Queue queue = queueWithFirstAndSecond( firstAddedObject, secondAddedObject);
@@ -56,17 +56,10 @@ public class QueueTest {
   @Test public void test10CanNotHeadWhenThereAreNoObjectsInTheQueue() {
     assertThrowsLike(() -> new Queue().head(), EmptySlot.EmptyQueue);
   }
-  private Queue queueWithSomething() {
-	  return new Queue().add( "Something" );
-  }
-  public Queue queueWithFirstAndSecond( Object firstToAdd, Object secondToAdd) {
-    return new Queue().add( firstToAdd ).add( secondToAdd );
-  }
+  private String something = "Something";
   private String firstAddedObject = "First";
-  
   private String secondAddedObject = "Second";
-  
-  private void assertThrowsLike( Executable executable, String message ) {
-	  assertEquals( message, assertThrows( Error.class, executable ).getMessage() );
-  }
+  private Queue queueWithSomething() {return new Queue().add( something );}
+  private Queue queueWithFirstAndSecond( Object firstToAdd, Object secondToAdd) {return new Queue().add( firstToAdd ).add( secondToAdd );}
+  private void assertThrowsLike( Executable executable, String message ) {assertEquals( message, assertThrows( Error.class, executable ).getMessage() );}
 }
