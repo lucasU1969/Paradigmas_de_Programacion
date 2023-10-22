@@ -3,7 +3,7 @@ package nemo;
 public class Deep extends DepthState {
 	
 	private int depth;
-	public static String NemoCannotLaunchTheCapsuleThisDeep = "Nemo cannot launch the capsule this deep.";
+	public static String NemoExplodedAfterReleasingTheCapsuleBellowTheSafeDepth = "Nemo exploded after releasing the capsule bellow the safe depth";
 
 	public Deep(int newDepth) {
 		depth = newDepth;
@@ -14,7 +14,7 @@ public class Deep extends DepthState {
 	}
 
 	public void launchCapsule() {
-		throw new RuntimeException(NemoCannotLaunchTheCapsuleThisDeep);
+		throw new RuntimeException(NemoExplodedAfterReleasingTheCapsuleBellowTheSafeDepth);
 	}
 	
 	public int getDepth() {
