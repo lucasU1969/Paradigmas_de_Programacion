@@ -184,7 +184,7 @@ public class NemoTest {
 
 	@Test public void test29NemoCantLaunchCapsuleDeep(){
 		nemoInTheOriginFacingNorth.runStringOfCommands(moveDownwards + moveDownwards);
-		assertThrowsLike(Deep.NemoCannotLaunchTheCapsuleThisDeep, () -> nemoInTheOriginFacingNorth.runStringOfCommands(launchCapsule));
+		assertThrowsLike(Deep.NemoExplodedAfterReleasingTheCapsuleBellowTheSafeDepth, () -> nemoInTheOriginFacingNorth.runStringOfCommands(launchCapsule));
 		
 	}
 	private void assertThrowsLike(String message, Executable ex) {
