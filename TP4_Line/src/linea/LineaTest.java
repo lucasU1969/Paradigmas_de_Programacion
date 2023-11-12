@@ -1,5 +1,6 @@
 package linea;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,17 +11,46 @@ import org.junit.jupiter.api.function.Executable;
 
 public class LineaTest {
 
+    public Linea line2x1C;
+    public Linea line1x1C;
+    public Linea line2x2C;
+    public Linea line5x5C;
+    public Linea line5x4C;
+    public Linea line5x4B;
+    public Linea line3x4B;
+    public Linea line5x5A;
+    public Linea line5x5B;
+    public Linea line5x4A;
+    public Linea line3x4C;
+    public Linea line3x4A;
+
+    @BeforeEach void setUp(){
+
+        line3x4C = new Linea(3, 4, 'C');
+        line3x4A = new Linea(3, 4, 'A');
+        line5x4A = new Linea(5, 4, 'A');
+        line5x5B = new Linea(5, 5, 'B');
+        line3x4B = new Linea(3, 4, 'B');
+        line5x5A = new Linea(5, 5, 'A');
+        line5x4B = new Linea(5, 4, 'B');
+        line5x4C = new Linea(5, 4, 'C');
+        line5x4B = new Linea(5, 4, 'B');
+        line5x5C = new Linea(5, 5, 'C');
+        line1x1C = new Linea(1, 1, 'C');
+        line2x2C = new Linea(2, 2, 'C');
+        line2x1C = new Linea(2, 1, 'C');
+
+    }
+
     @Test public void test01LineaInstantiatesWithTheCorrectAmountOfColumns() {
-        Linea line = new Linea(3, 4, 'C');
-        assertTrue(line.isColumnAvailable(1));
-        assertTrue(line.isColumnAvailable(2));
-        assertTrue(line.isColumnAvailable(3));
+        assertTrue(line3x4C.isColumnAvailable(1));
+        assertTrue(line3x4C.isColumnAvailable(2));
+        assertTrue(line3x4C.isColumnAvailable(3));
     }
 
     @Test public void test02LineaInstantiatesOnlyWithTheCorrectAmountOfColumns() {
-        Linea line = new Linea(3, 4, 'C');
-        assertFalse(line.isColumnAvailable(0));
-        assertFalse(line.isColumnAvailable(4));
+        assertFalse(line3x4C.isColumnAvailable(0));
+        assertFalse(line3x4C.isColumnAvailable(4));
     }
 
     @Test public void test03RedStarts() {
@@ -29,8 +59,7 @@ public class LineaTest {
     }
 
     @Test public void test04GameFailsWhenBlueStarts() {
-        Linea line = new Linea(3, 4, 'C');
-        assertThrowsLike(() -> line.playBlueAt(1), TurnHandler.PlayerCanOnlyParticipateInTheirTurn);
+        assertThrowsLike(() -> line3x4C.playBlueAt(1), TurnHandler.PlayerCanOnlyParticipateInTheirTurn);
     }
 
     @Test public void test05RedTriesToPlayTwice() {
@@ -45,21 +74,18 @@ public class LineaTest {
     }
 
     @Test public void test07AddingABluePieceToAnEmptyColumn() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(3);
-        line.playBlueAt(1);
-        assertTrue(line.positionContains(1,1, 'B'));
+        line3x4C.playRedkAt(3);
+        line3x4C.playBlueAt(1);
+        assertTrue(line3x4C.positionContains(1,1, 'B'));
     }
 
     @Test public void test08TryingToAddABluePieceToAnInvalidColumn() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(2);
-        assertThrowsLike(() -> line.playBlueAt(0), Linea.itSNotPossibleToPlayAtThisPosition);
+        line3x4C.playRedkAt(2);
+        assertThrowsLike(() -> line3x4C.playBlueAt(0), Linea.itSNotPossibleToPlayAtThisPosition);
     }
 
     @Test public void test09TryingToAddARedPieceToAnInvalidColumn() {
-        Linea line = new Linea(3, 4, 'C');
-        assertThrowsLike(() -> line.playRedkAt(0),  Linea.itSNotPossibleToPlayAtThisPosition);
+        assertThrowsLike(() -> line3x4C.playRedkAt(0),  Linea.itSNotPossibleToPlayAtThisPosition);
     }
 
     @Test public void test10AddingAPieceUponAnother() {
@@ -70,13 +96,12 @@ public class LineaTest {
     }
 
     @Test public void test11TryingToAddABluePieceToAFullColumn() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(2);
-        line.playBlueAt(1);
-        line.playRedkAt(1);
-        line.playBlueAt(1);
-        line.playRedkAt(1);
-        assertThrowsLike(() -> line.playBlueAt(1),  Linea.itSNotPossibleToPlayAtThisPosition);
+        line3x4C.playRedkAt(2);
+        line3x4C.playBlueAt(1);
+        line3x4C.playRedkAt(1);
+        line3x4C.playBlueAt(1);
+        line3x4C.playRedkAt(1);
+        assertThrowsLike(() -> line3x4C.playBlueAt(1),  Linea.itSNotPossibleToPlayAtThisPosition);
     }
 
     @Test public void test12TryingToAddARedPieceToAFullColumn() {
@@ -92,145 +117,138 @@ public class LineaTest {
     }
 
     @Test public void test14RedWinsVerticallyWithGameModeA() {
-        assertGameFinishedAfterPlayerWon( redWinsVertically( new Linea(3, 4, 'A') ), 'R' );
+        assertGameFinishedAfterPlayerWon( redWinsVertically(line3x4A), 'R' );
     }
     @Test public void test15BlueWinsVerticallyWithGameModeA() {
-        assertGameFinishedAfterPlayerWon( blueWinsVertically( new Linea(3, 4, 'A') ), 'B' );
+        assertGameFinishedAfterPlayerWon( blueWinsVertically(line3x4A), 'B' );
     }
 
     @Test public void test16RedWinsHorizontallyWithGameModeA() {
-        assertGameFinishedAfterPlayerWon( redWinsHorizontally( new Linea(5, 4, 'A') ), 'R');
+        assertGameFinishedAfterPlayerWon( redWinsHorizontally(line5x4A), 'R');
     }
 
     @Test public void test17BlueWinsHorizontallyWithGameModeA() {
-        assertGameFinishedAfterPlayerWon(blueWinsHorizontally(new Linea(5, 4, 'A')), 'B');
+        assertGameFinishedAfterPlayerWon(blueWinsHorizontally(line5x4A), 'B');
     }
 
     @Test public void test18RedDoesNotWinDiagonallyWithGameModeA() {
-        assertFalse( redWinsDiagonally( new Linea(5, 5, 'A') ).won('R') );
+        assertFalse( redWinsDiagonally(line5x5A).won('R') );
     }
 
     @Test public void test19BlueDoesNotWinDiagonallyWithGameModeA() {
-        assertFalse(blueWinsInTheDiagonal(new Linea(5, 5, 'A')).won( 'B' ) );
+        assertFalse(blueWinsInTheDiagonal(line5x5A).won( 'B' ) );
     }
 
     @Test public void test20RedDoesNotWinInTheOppositeDiagonalWithGameModeA() {
-        assertFalse ( redWinsInTheOppositeDiagonal( new Linea(5, 5, 'A') ).won('R') );
+        assertFalse ( redWinsInTheOppositeDiagonal(line5x5A).won('R') );
     }
 
     @Test public void test21BlueDoesNotWinInTheOppositeDiagonalWithGameModeA() {
-        assertFalse( blueWinsInTheOppositeDiagonal( new Linea(5, 5, 'A') ).won('B') );
+        assertFalse( blueWinsInTheOppositeDiagonal(line5x5A).won('B') );
     }
 
     @Test public void test22RedWinsDiagonallyWithGameModeB() {
-        assertGameFinishedAfterPlayerWon( redWinsDiagonally( new Linea(5, 5, 'B') ), 'R');
+        assertGameFinishedAfterPlayerWon( redWinsDiagonally(line5x5B), 'R');
     }
 
     @Test public void test23BlueWinsDiagonallyWithGameModeB() {
-        assertGameFinishedAfterPlayerWon(blueWinsInTheDiagonal(new Linea(5, 5, 'B')), 'B');
+        assertGameFinishedAfterPlayerWon(blueWinsInTheDiagonal(line5x5B), 'B');
     }
 
     @Test public void test24RedWinsInTheOppositeDiagonalWithGameModeB() {
-        assertGameFinishedAfterPlayerWon( redWinsInTheOppositeDiagonal( new Linea(5, 5, 'B') ), 'R');
+        assertGameFinishedAfterPlayerWon( redWinsInTheOppositeDiagonal(line5x5B), 'R');
     }
 
     @Test public void test25BlueWinsInTheOppositeDiagonalWithGameModeB() {
-        assertGameFinishedAfterPlayerWon(blueWinsInTheOppositeDiagonal(new Linea(5, 5, 'B')), 'B');
+        assertGameFinishedAfterPlayerWon(blueWinsInTheOppositeDiagonal(line5x5B), 'B');
     }
 
     @Test public void test26RedDoesNotWinVerticallyWithGameModeB() {
-        assertFalse( redWinsVertically( new Linea(3, 4, 'B') ).won('R') );
+        assertFalse( redWinsVertically(line3x4B).won('R') );
     }
 
     @Test public void test27BlueDoesNotWinVerticallyWithGameModeB() {
-        assertFalse( blueWinsVertically( new Linea(3, 4, 'B') ).won('B') );
+        assertFalse( blueWinsVertically(line3x4B).won('B') );
     }
 
     @Test public void test28RedDoesNotWinHorizontallyWithGameModeB() {
-        assertFalse( redWinsHorizontally( new Linea(5, 4, 'B') ).won('R') );
+        assertFalse( redWinsHorizontally(line5x4B).won('R') );
     }
 
     @Test public void test29BlueDoesNotWinHorizontallyWithGameModeB() {
-        assertFalse( blueWinsHorizontally( new Linea(5, 4, 'B') ).won('B') );
+        assertFalse( blueWinsHorizontally(line5x4B).won('B') );
     }
 
     @Test public void test30RedWinsVerticallyWithGameModeC() {
-        assertGameFinishedAfterPlayerWon( redWinsVertically( new Linea(3, 4, 'C') ), 'R');
+        assertGameFinishedAfterPlayerWon( redWinsVertically(line3x4C), 'R');
     }
 
     @Test public void test31BlueWinsVerticallyWithGameModeC() {
-        assertGameFinishedAfterPlayerWon(blueWinsVertically(new Linea(3, 4, 'C')), 'B');
+        assertGameFinishedAfterPlayerWon(blueWinsVertically(line3x4C), 'B');
     }
 
     @Test public void test32RedWinsHorizontallyWithGameModeC() {
-        assertGameFinishedAfterPlayerWon( redWinsHorizontally( new Linea(5, 4, 'C') ), 'R');
+        assertGameFinishedAfterPlayerWon( redWinsHorizontally(line5x4C), 'R');
     }
 
     @Test public void test33BlueWinsHorizontallyWithGameModeC() {
-        assertGameFinishedAfterPlayerWon(blueWinsHorizontally(new Linea(5, 4, 'C')), 'B');
+        assertGameFinishedAfterPlayerWon(blueWinsHorizontally(line5x4C), 'B');
     }
 
     @Test public void test34RedWinsDiagonallyWithGameModeC() {
-        assertGameFinishedAfterPlayerWon( redWinsDiagonally( new Linea(5, 5, 'C') ), 'R');
+        assertGameFinishedAfterPlayerWon( redWinsDiagonally(line5x5C), 'R');
     }
 
     @Test public void test35BlueWinsDiagonallyWithGameModeC() {
-        assertGameFinishedAfterPlayerWon(blueWinsInTheDiagonal(new Linea(5, 5, 'C')), 'B');
+        assertGameFinishedAfterPlayerWon(blueWinsInTheDiagonal(line5x5C), 'B');
     }
 
     @Test public void test36RedWinsInTheOppositeDiagonalWithGameModeC() {
-        assertGameFinishedAfterPlayerWon(redWinsInTheOppositeDiagonal(new Linea(5, 5, 'C')), 'R');
+        assertGameFinishedAfterPlayerWon(redWinsInTheOppositeDiagonal(line5x5C), 'R');
     }
 
     @Test public void test37BlueWinsInTheOppositeDiagonalWithGameModeC() {
-        assertGameFinishedAfterPlayerWon(blueWinsInTheOppositeDiagonal(new Linea(5, 5, 'C')), 'B');
+        assertGameFinishedAfterPlayerWon(blueWinsInTheOppositeDiagonal(line5x5C), 'B');
     }
 
     @Test public void test38GetStringWorksForAnEmptySlot() {
-        Linea line = new Linea(1, 1, 'C');
-        assertEquals( "-", line.getPositionAsString(1, 1) );
+        assertEquals( "-", line1x1C.getPositionAsString(1, 1) );
     }
 
     @Test public void test39GetRedPositionString() {
-        Linea line = new Linea(1, 1, 'C');
-        line.playRedkAt(1);
-        assertEquals( "R", line.getPositionAsString(1, 1) );
+        line1x1C.playRedkAt(1);
+        assertEquals( "R", line1x1C.getPositionAsString(1, 1) );
     }
 
     @Test public void test40GetBluePositionString() {
-        Linea line = new Linea(2, 2, 'C');
-        line.playRedkAt(2);
-        line.playBlueAt(1);
-        assertEquals( "B", line.getPositionAsString(1, 1) );
+        line2x2C.playRedkAt(2);
+        line2x2C.playBlueAt(1);
+        assertEquals( "B", line2x2C.getPositionAsString(1, 1) );
     }
 
     @Test public void test41ShowIsCorrectForASmallBoard() {
-        Linea line = new Linea(1, 1, 'C');
-        assertEquals( "| - |\n", line.show() );
+        assertEquals( "| - |\n", line1x1C.show() );
     }
 
     @Test public void test42ShowIsCorrectAfterAddingARedPiece() {
-        Linea line = new Linea(1, 1, 'C');
-        line.playRedkAt(1);
-        assertEquals( "| R |\nEmpate", line.show() );
+        line1x1C.playRedkAt(1);
+        assertEquals( "| R |\nEmpate", line1x1C.show() );
     }
 
     @Test public void test43ShowIsCorrectAfterAddingABluePiece() {
-        Linea line = new Linea(2, 1, 'C');
-        line.playRedkAt(2);
-        line.playBlueAt(1);
-        assertEquals( "| B | R |\nEmpate", line.show() );
+        line2x1C.playRedkAt(2);
+        line2x1C.playBlueAt(1);
+        assertEquals( "| B | R |\nEmpate", line2x1C.show() );
     }
 
     @Test public void test44AddingARedPieceOnABiggerBoard() {
-        Linea line = new Linea( 5, 5, 'C');
-        line.playRedkAt(1);
+        line5x5C.playRedkAt(1);
         assertEquals( "| - | - | - | - | - |\n" +
                       "| - | - | - | - | - |\n" +
                       "| - | - | - | - | - |\n" +
                       "| - | - | - | - | - |\n" +
                       "| R | - | - | - | - |\n",
-                line.show());
+                line5x5C.show());
     }
 
     @Test public void test45TyingToPlayAfterTheGameFinished() {
@@ -249,7 +267,7 @@ public class LineaTest {
     }
 
     private Linea gameWithARedPiece() {
-        Linea line = new Linea(3, 4, 'C');
+        Linea line = line3x4C;
         line.playRedkAt(1);
         return line;
     }
