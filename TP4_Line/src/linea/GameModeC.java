@@ -1,9 +1,8 @@
 package linea;
 
 public class GameModeC extends GameMode {
-    protected char modeCharacter = 'C';
     public boolean applies( char mode ) {
-        return mode == modeCharacter;
+        return mode == 'C';
     }
 
     public boolean checkWinningCondition(Linea line, char player) {
